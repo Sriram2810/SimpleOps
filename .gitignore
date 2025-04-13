@@ -9,11 +9,6 @@ wheels/
 # Virtual environments
 .venv
 
-#Ignore Data and Mlflow models
-data/
-mlflow/
-dvc_remote/
-
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
