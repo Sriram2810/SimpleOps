@@ -1,80 +1,92 @@
 base:
   random_seed: 42
-
+  
 data:
-  #loading data
-  raw_data_parquet: 'data/raw/yellow_tripdata_2023-01.parquet'
-  raw_data_csv: 'data/raw/yellow_tripdata_2023-01.csv'
+  null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+  processed_data_csv: data/processed/yellow_tripdata_2023-01.csv
 
-  #processed data
-  processed_data_csv: 'data/processed/yellow_tripdata_2023-01.csv'
+  raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+  raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
 
-  #Train and test data
-  train_data_csv: 'data/processed/train_data.csv'
-  val_data_csv: 'data/processed/val_data.csv'
-  
-  
-  #Data partition
   test_size: 0.2
 
+  train_data_csv: data/processed/train_data.csv
+  val_data_csv: data/processed/val_data.csv
 
+features:
+  categorical:
+  - VendorID
+  - RatecodeID
+  - store_and_fwd_flag
+  - payment_type
+  - PULocationID
+  - DOLocationID
+  - time_of_day
+  numerical:
+  - passenger_count
+  - trip_distance
+  - fare_amount
+  - extra
+  - mta_tax
+  - tip_amount
+  - tolls_amount
+  - improvement_surcharge
+  - total_amount
+  - congestion_surcharge
+  - pickup_hour
+  - pickup_weekday
+  - is_weekend
+  - pickup_day
+  - month
+  - is_peak
+
+reports:
+  kde:
+    lgbm: reports/KDEPlot_LGBM.jpg
+    
 train:
-  #training Hyperparameters
-  PyNN:
-    lr: 0.002
-    batch_size: 1024
-    num_workers: 0
-    patience: 20
-    patience_counter: 0
-    epochs: 100
-    model_path: 'models/PyNN_model.pt'  
-
-  XGBoost:
-    tree_method: 'hist'
-    device: 'cuda'
-    n_estimators: 500
-    max_depth: 8
-    learning_rate: 0.05
-    subsample: 0.8
-    colsample_bytree: 0.8
-    objective: 'reg:squarederror'
-    random_state: 42
-    early_stopping_rounds: 20
-
-  LightGBM:
-    device: 'gpu'
-    num_leaves: 31
-    learning_rate: 0.05
-    n_estimators: 500
-    min_child_samples: 20
-    early_stopping_rounds: 20
-    random_state: 42
-
-  TabNet:
-    eval_metric: ['rmse']
-    max_epochs: 20
-    patience: 5
-    batch_size: 1024
-    virtual_batch_size: 128
-    num_workers: 0
-
   LReg:
-    Ridge:
-      alpha: 1.0
-
-    Lasso:
-      alpha: 0.1
-      max_iter: 10000
-
     ElasticNet:
       alpha: 0.1
       l1_ratio: 0.5
       max_iter: 10000
-
-
-
-reports:
-  #Metrics, images, etc.
-  kde:
-    lgbm: 'reports/KDEPlot_LGBM.jpg'
-
+    Lasso:
+      alpha: 0.1
+      max_iter: 10000
+    Ridge:
+      alpha: 1.0
+  LightGBM:
+    device: gpu
+    early_stopping_rounds: 20
+    learning_rate: 0.05
+    min_child_samples: 20
+    n_estimators: 500
+    num_leaves: 31
+    random_state: 42
+  PyNN:
+    batch_size: 1024
+    epochs: 100
+    lr: 0.002
+    model_path: models/PyNN_model.pt
+    num_workers: 0
+    patience: 20
+    patience_counter: 0
+  TabNet:
+    batch_size: 1024
+    eval_metric:
+    - rmse
+    max_epochs: 20
+    num_workers: 0
+    patience: 5
+    virtual_batch_size: 128
+  XGBoost:
+    colsample_bytree: 0.8
+    device: cuda
+    early_stopping_rounds: 20
+    learning_rate: 0.05
+    max_depth: 8
+    n_estimators: 500
+    objective: reg:squarederror
+    random_state: 42
+    subsample: 0.8
+    tree_method: hist

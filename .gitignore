@@ -12,5 +12,3 @@ wheels/
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-# Ignore project lock files (uv.lock)
-uv.lock
