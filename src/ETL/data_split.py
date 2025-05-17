@@ -4,7 +4,7 @@ import yaml
 from typing import Text
 from sklearn.model_selection import train_test_split
 
-def split_and_save_train_val(config_path: Text) -> None:
+def data_split(config_path: Text) -> None:
     """
     Load data, split into train/val, validate features, save CSVs, and update params.yaml with actual features.
     """
@@ -31,4 +31,4 @@ if __name__ == "__main__":
     args_parser.add_argument('--config', dest='config', required=True)
     args = args_parser.parse_args()
 
-    split_and_save_train_val(config_path=args.config)
+    data_split(config_path=args.config)

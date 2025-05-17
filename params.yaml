@@ -1,18 +1,13 @@
 base:
   random_seed: 42
-  
 data:
   null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
   processed_data_csv: data/processed/yellow_tripdata_2023-01.csv
-
   raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
   raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
-
   test_size: 0.2
-
   train_data_csv: data/processed/train_data.csv
   val_data_csv: data/processed/val_data.csv
-
 features:
   categorical:
   - VendorID
@@ -39,11 +34,9 @@ features:
   - pickup_day
   - month
   - is_peak
-
 reports:
   kde:
     lgbm: reports/KDEPlot_LGBM.jpg
-    
 train:
   LReg:
     ElasticNet:
@@ -62,9 +55,17 @@ train:
     min_child_samples: 20
     n_estimators: 500
     num_leaves: 31
-    random_state: 42
+    model_path: models/LightGBM_model.pkl
   PyNN:
     batch_size: 1024
+    cat_dims:
+    - 2
+    - 7
+    - 2
+    - 5
+    - 256
+    - 261
+    - 4
     epochs: 100
     lr: 0.002
     model_path: models/PyNN_model.pt
@@ -79,6 +80,7 @@ train:
     num_workers: 0
     patience: 5
     virtual_batch_size: 128
+    model_path: models/TabNet_model.pkl
   XGBoost:
     colsample_bytree: 0.8
     device: cuda
@@ -90,3 +92,4 @@ train:
     random_state: 42
     subsample: 0.8
     tree_method: hist
+    model_path: models/XGBoost_model.pkl
