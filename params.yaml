@@ -53,9 +53,9 @@ train:
     early_stopping_rounds: 20
     learning_rate: 0.05
     min_child_samples: 20
+    model_path: models/LightGBM_model.pkl
     n_estimators: 500
     num_leaves: 31
-    model_path: models/LightGBM_model.pkl
   PyNN:
     batch_size: 1024
     cat_dims:
@@ -77,19 +77,19 @@ train:
     eval_metric:
     - rmse
     max_epochs: 20
+    model_path: models/TabNet_model.pkl
     num_workers: 0
     patience: 5
     virtual_batch_size: 128
-    model_path: models/TabNet_model.pkl
   XGBoost:
     colsample_bytree: 0.8
     device: cuda
     early_stopping_rounds: 20
     learning_rate: 0.05
     max_depth: 8
+    model_path: models/XGBoost_model.pkl
     n_estimators: 500
     objective: reg:squarederror
     random_state: 42
     subsample: 0.8
     tree_method: hist
-    model_path: models/XGBoost_model.pkl
