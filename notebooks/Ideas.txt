@@ -1,0 +1,4 @@
+Need to integrate manhattan or euclidean distance.
+
+1. Create clusters of area codes and add clusters as an input. Need to brainstorm because this will fail for cities on the farther end of both clusters. However might imporve the model accuracy. -> Not Required.
+2. We have latitude, longitude data. need to extract data from those meaningful features. Yes!
