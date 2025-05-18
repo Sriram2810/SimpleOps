@@ -5,6 +5,8 @@ import pandas as pd
 import xgboost as xgb
 import yaml
 import argparse
+from pathlib import Path
+import json
 
 # Load the pickled model
 
@@ -34,6 +36,21 @@ def XGBoost_eval(config_path):
     r2 = r2_score(y_val, y_pred)
 
     print(f"XGBoost (GPU) - RMSE: {rmse:.2f}, R²: {r2:.4f}")
+
+    reports_folder = Path(config['eval']['reports_dir'])
+    metrics_path = reports_folder/config['eval']['metrics_file']
+
+    reports_folder.mkdir(parents=True, exist_ok=True)
+
+    metrics_data = {
+        'XGBoost': {
+            "rmse": float(rmse), 
+            "r2": float(r2)
+        }
+    }
+
+    with open(metrics_path, 'w') as f:
+        json.dump(metrics_data, f, indent=4)
 
 if __name__ == "__main__":
     args_parser = argparse.ArgumentParser()

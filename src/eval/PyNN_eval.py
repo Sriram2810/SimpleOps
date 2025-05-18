@@ -7,6 +7,8 @@ from tqdm import tqdm
 import pandas as pd
 import yaml
 import argparse
+from pathlib import Path
+import json
 
 # 1. Define the Dataset class (must match training)
 class TaxiDataset(Dataset):
@@ -43,7 +45,7 @@ class TaxiNet(nn.Module):
         return self.fc(x).squeeze(1)
 
 # 3. The evaluation function
-def PyNN_eval(config_path):
+def PyNN_eval(config_path)-> None:
 
     with open(config_path) as f:
         config = yaml.safe_load(f)
@@ -89,7 +91,21 @@ def PyNN_eval(config_path):
     rmse = np.sqrt(mean_squared_error(val_targets, val_preds))
     r2 = r2_score(val_targets, val_preds)
     print(f"PyTorch NN - RMSE: {rmse:.2f}, R²: {r2:.4f}")
-    return rmse, r2, val_preds, val_targets
+
+    reports_folder = Path(config['eval']['reports_dir'])
+    metrics_path = reports_folder/config['eval']['metrics_file']
+
+    reports_folder.mkdir(parents=True, exist_ok=True)
+
+    metrics_data = {
+        'PyNN': {
+            "rmse": float(rmse), 
+            "r2": float(r2)
+        }
+    }
+
+    with open(metrics_path, 'w') as f:
+        json.dump(metrics_data, f, indent=4)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,140 @@
+schema: '2.0'
+stages:
+  data_load:
+    cmd: python src/ETL/data_load.py --config=params.yaml
+    deps:
+    - path: src/ETL/data_load.py
+      hash: md5
+      md5: 7094d0394c70769719af2dae37e3e964
+      size: 682
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+    outs:
+    - path: data/raw/yellow_tripdata_2023-01.csv
+      hash: md5
+      md5: 426a744043e344ff34bb4ee0dd19f71f
+      size: 325023348
+  null_handling:
+    cmd: python src/ETL/null_handling.py --config=params.yaml
+    deps:
+    - path: data/raw/yellow_tripdata_2023-01.csv
+      hash: md5
+      md5: 426a744043e344ff34bb4ee0dd19f71f
+      size: 325023348
+    - path: src/ETL/null_handling.py
+      hash: md5
+      md5: 2beca4c52a8ef373121730809183f257
+      size: 930
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+    outs:
+    - path: data/processed/yellow_tripdata_2023-01_null_handled.csv
+      hash: md5
+      md5: 063c731d9ed8fff84f3217899d1b0229
+      size: 330260587
+  featurize:
+    cmd: python src/ETL/featurize.py --config=params.yaml
+    deps:
+    - path: data/processed/yellow_tripdata_2023-01_null_handled.csv
+      hash: md5
+      md5: 063c731d9ed8fff84f3217899d1b0229
+      size: 330260587
+    - path: src/ETL/featurize.py
+      hash: md5
+      md5: 81078713dcf6f45d4fb5b884b4feb670
+      size: 2756
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+    outs:
+    - path: data/processed/yellow_tripdata_2023-01_processed.csv
+      hash: md5
+      md5: 8e47e7c122ee35042098ac734f9ab62a
+      size: 1177139148
+  data_split:
+    cmd: python src/ETL/data_split.py --config=params.yaml
+    deps:
+    - path: data/processed/yellow_tripdata_2023-01_processed.csv
+      hash: md5
+      md5: 8e47e7c122ee35042098ac734f9ab62a
+      size: 1177139148
+    - path: src/ETL/data_split.py
+      hash: md5
+      md5: 1bd174bbb87412968368b8a8e224f58f
+      size: 1106
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+    outs:
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 149c6be17a1f68f4ec821bde8a90185b
+      size: 919993096
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369

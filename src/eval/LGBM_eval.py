@@ -5,6 +5,9 @@ import yaml
 import joblib
 from typing import Text
 import pandas as pd
+from pathlib import Path
+import json
+
 
 def LGBM_eval(config_path:Text)->None:
 
@@ -31,6 +34,21 @@ def LGBM_eval(config_path:Text)->None:
     r2 = r2_score(y_val, y_pred)
 
     print(f"LGB_Model (GPU) - RMSE: {rmse:.2f}, R²: {r2:.4f}")
+
+    reports_folder = Path(config['eval']['reports_dir'])
+    metrics_path = reports_folder/config['eval']['metrics_file']
+
+    reports_folder.mkdir(parents=True, exist_ok=True)
+
+    metrics_data = {
+        'LGBM': {
+            "rmse": float(rmse), 
+            "r2": float(r2)
+        }
+    }
+
+    with open(metrics_path, 'w') as f:
+        json.dump(metrics_data, f, indent=4)
 
 
 if __name__ == "__main__":

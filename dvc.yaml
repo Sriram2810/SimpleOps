@@ -1,0 +1,154 @@
+stages:
+  data_load:
+    cmd: python src/ETL/data_load.py --config=params.yaml
+    deps:
+    - src/ETL/data_load.py
+    params:
+    - base
+    - data
+    outs:
+    - data/raw/yellow_tripdata_2023-01.csv
+  null_handling:
+    cmd: python src/ETL/null_handling.py --config=params.yaml
+    deps:
+    - src/ETL/null_handling.py
+    - data/raw/yellow_tripdata_2023-01.csv
+    params:
+    - base
+    - data
+    outs:
+    - data/processed/yellow_tripdata_2023-01_null_handled.csv
+  featurize:
+    cmd: python src/ETL/featurize.py --config=params.yaml
+    deps:
+    - src/ETL/featurize.py
+    - data/processed/yellow_tripdata_2023-01_null_handled.csv
+    params:
+    - base
+    - data
+    - features
+    outs:
+    - data/processed/yellow_tripdata_2023-01_processed.csv
+  data_split:
+    cmd: python src/ETL/data_split.py --config=params.yaml
+    deps:
+    - src/ETL/data_split.py
+    - data/processed/yellow_tripdata_2023-01_processed.csv
+    params:
+    - base
+    - data
+    outs:
+    - data/processed/train_data.csv
+    - data/processed/val_data.csv
+
+  PyNN_train:
+    cmd: python src/model/training/PyNN.py --config=params.yaml
+    deps:
+    - src/model/training/PyNN.py
+    - data/processed/train_data.csv
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    outs:
+    - models/PyNN_model.pt
+
+  XGBoost_train:
+    cmd: python src/model/training/xgboost_model.py --config=params.yaml
+    deps:
+    - src/model/training/xgboost_model.py
+    - data/processed/train_data.csv
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    outs:
+    - models/XGBoost_model.pkl
+
+  LightGBM_train:
+    cmd: python src/model/training/LGBM_model.py --config=params.yaml
+    deps:
+    - src/model/training/LGBM_model.py
+    - data/processed/train_data.csv
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    outs:
+    - models/LGBM_model.pkl
+
+  TabNet_train:
+    cmd: python src/model/training/TabNet_model.py --config=params.yaml
+    deps:
+    - src/model/training/TabNet_model.py
+    - data/processed/train_data.csv
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    outs:
+    - models/TabNet_model.pkl
+
+  PyNN_eval:
+    cmd: python src/eval/PyNN_eval.py --config=params.yaml
+    deps:
+    - src/eval/PyNN_eval.py
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    - eval
+    outs:
+    - src/reports/metrics.json
+
+  XGBoost_eval:
+    cmd: python src/eval/XGBoost_eval.py --config=params.yaml
+    deps:
+    - python src/eval/XGBoost_eval.py
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    - eval
+    outs:
+    - src/reports/metrics.json
+
+  LightGBM_eval:
+    cmd: python src/eval/LGBM_eval.py --config=params.yaml
+    deps:
+    - python src/eval/LGBM_eval.py
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    - eval
+    outs:
+    - src/reports/metrics.json
+
+  TabNet_eval:
+    cmd: python src/eval/Tabnet_eval.py --config=params.yaml
+    deps:
+    - src/eval/Tabnet_eval.py
+    - data/processed/val_data.csv
+    params:
+    - base
+    - data
+    - features
+    - train
+    - eval
+    outs:
+    - src/reports/metrics.json

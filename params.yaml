@@ -2,7 +2,7 @@ base:
   random_seed: 42
 data:
   null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
-  processed_data_csv: data/processed/yellow_tripdata_2023-01.csv
+  processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
   raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
   raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
   test_size: 0.2
@@ -93,3 +93,7 @@ train:
     random_state: 42
     subsample: 0.8
     tree_method: hist
+
+eval:
+  reports_dir: src/reports
+  metrics_file: 'metrics.json'

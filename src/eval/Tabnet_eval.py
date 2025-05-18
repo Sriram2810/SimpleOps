@@ -5,6 +5,9 @@ import pandas as pd
 import xgboost as xgb
 import yaml
 import argparse
+from pathlib import Path
+import json
+
 
 # Load the pickled model
 
@@ -24,7 +27,25 @@ def Tabnet_eval(config_path):
 
 
     tabnet_pred = tabnet_model.predict(X_val.values).squeeze()
-    print(f"TabNet RMSE: {np.sqrt(mean_squared_error(y_val, tabnet_pred)):.2f}, R²: {r2_score(y_val, tabnet_pred):.4f}")
+    rmse = np.sqrt(mean_squared_error(y_val, tabnet_pred))
+    r2 = r2_score(y_val, tabnet_pred)
+
+    print(f"TabNet RMSE: {rmse:.2f}, R²: {r2:.4f}")
+
+    reports_folder = Path(config['eval']['reports_dir'])
+    metrics_path = reports_folder/config['eval']['metrics_file']
+
+    reports_folder.mkdir(parents=True, exist_ok=True)
+
+    metrics_data = {
+        'Tabnet': {
+            "rmse": float(rmse), 
+            "r2": float(r2)
+        }
+    }
+
+    with open(metrics_path, 'w') as f:
+        json.dump(metrics_data, f, indent=4)
 
 
 if __name__ == "__main__":
