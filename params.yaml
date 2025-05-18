@@ -72,7 +72,7 @@ train:
     - 256
     - 261
     - 4
-    epochs: 100
+    epochs: 2
     lr: 0.002
     model_path: models/PyNN_model.pt
     num_workers: 0
@@ -92,7 +92,7 @@ train:
     device: cuda
     early_stopping_rounds: 20
     learning_rate: 0.05
-    max_depth: 8
+    max_depth: 16
     model_path: models/XGBoost_model.pkl
     n_estimators: 500
     objective: reg:squarederror
