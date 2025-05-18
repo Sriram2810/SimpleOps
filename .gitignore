@@ -12,3 +12,4 @@ wheels/
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
+/config\[data\]\[raw_data_csv\]-p
