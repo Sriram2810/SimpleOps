@@ -626,7 +626,7 @@ stages:
           metrics_file_pynn: metrics_pynn.json
           metrics_file_tabnet: metrics_tabnet.json
           metrics_file_xgboost: metrics_xgboost.json
-          reports_dir: src/reports
+          reports_dir: reports
         features:
           categorical:
           - VendorID
@@ -710,7 +710,7 @@ stages:
             subsample: 0.8
             tree_method: hist
     outs:
-    - path: src/reports/metrics_pynn.json
+    - path: reports/metrics_pynn.json
       hash: md5
       md5: a0bdb9fa71e90782e189d71443d9c9da
       size: 97
@@ -746,7 +746,7 @@ stages:
           metrics_file_pynn: metrics_pynn.json
           metrics_file_tabnet: metrics_tabnet.json
           metrics_file_xgboost: metrics_xgboost.json
-          reports_dir: src/reports
+          reports_dir: reports
         features:
           categorical:
           - VendorID
@@ -830,7 +830,7 @@ stages:
             subsample: 0.8
             tree_method: hist
     outs:
-    - path: src/reports/metrics_xgboost.json
+    - path: reports/metrics_xgboost.json
       hash: md5
       md5: 9aed235160c50e170b9bd91cb7b3cdcc
       size: 98
@@ -866,7 +866,7 @@ stages:
           metrics_file_pynn: metrics_pynn.json
           metrics_file_tabnet: metrics_tabnet.json
           metrics_file_xgboost: metrics_xgboost.json
-          reports_dir: src/reports
+          reports_dir: reports
         features:
           categorical:
           - VendorID
@@ -950,7 +950,7 @@ stages:
             subsample: 0.8
             tree_method: hist
     outs:
-    - path: src/reports/metrics_lgbm.json
+    - path: reports/metrics_lgbm.json
       hash: md5
       md5: f556e1476af8f227e780c52566afc4e5
       size: 97
@@ -986,7 +986,7 @@ stages:
           metrics_file_pynn: metrics_pynn.json
           metrics_file_tabnet: metrics_tabnet.json
           metrics_file_xgboost: metrics_xgboost.json
-          reports_dir: src/reports
+          reports_dir: reports
         features:
           categorical:
           - VendorID
@@ -1070,7 +1070,7 @@ stages:
             subsample: 0.8
             tree_method: hist
     outs:
-    - path: src/reports/metrics_tabnet.json
+    - path: reports/metrics_tabnet.json
       hash: md5
       md5: bbdab8c98654f1edcb2ddfe07f909b1b
       size: 99

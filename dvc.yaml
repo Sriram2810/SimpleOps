@@ -110,7 +110,7 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics_pynn.json
+    - reports/metrics_pynn.json
 
   XGBoost_eval:
     cmd: python src/eval/XGBoost_eval.py --config=params.yaml
@@ -125,7 +125,7 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics_xgboost.json
+    - reports/metrics_xgboost.json
 
   LightGBM_eval:
     cmd: python src/eval/LGBM_eval.py --config=params.yaml
@@ -140,7 +140,7 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics_lgbm.json
+    - reports/metrics_lgbm.json
 
   TabNet_eval:
     cmd: python src/eval/Tabnet_eval.py --config=params.yaml
@@ -155,4 +155,4 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics_tabnet.json
+    - reports/metrics_tabnet.json

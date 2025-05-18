@@ -13,7 +13,7 @@ eval:
   metrics_file_pynn: metrics_pynn.json
   metrics_file_tabnet: metrics_tabnet.json
   metrics_file_xgboost: metrics_xgboost.json
-  reports_dir: src/reports
+  reports_dir: reports
 features:
   categorical:
   - VendorID
