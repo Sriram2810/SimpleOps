@@ -109,7 +109,8 @@ stages:
     - features
     - train
     - eval
-    outs:
+    # outs:
+    metrics:
     - reports/metrics_pynn.json
 
   XGBoost_eval:
@@ -124,7 +125,7 @@ stages:
     - features
     - train
     - eval
-    outs:
+    metrics:
     - reports/metrics_xgboost.json
 
   LightGBM_eval:
@@ -139,7 +140,7 @@ stages:
     - features
     - train
     - eval
-    outs:
+    metrics:
     - reports/metrics_lgbm.json
 
   TabNet_eval:
@@ -154,5 +155,5 @@ stages:
     - features
     - train
     - eval
-    outs:
+    metrics:
     - reports/metrics_tabnet.json
