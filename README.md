@@ -1,10 +1,3 @@
-SimpleOps
+Meet SimpleOps
 
-A simple Machine Learning Operations platform.
-
-Planned:
-DVC
-MLFlow
-Ray for distributed workloads
-
-.
+A static MLOperations enabled purely with DVC only.
