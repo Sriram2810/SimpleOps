@@ -220,7 +220,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -240,7 +240,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror
@@ -250,7 +250,7 @@ stages:
     outs:
     - path: models/PyNN_model.pt
       hash: md5
-      md5: 929b76439ba793f1cf33b1d84714ce3a
+      md5: 9cd70508bf54bf15f721c118336b603a
       size: 380514
   XGBoost_train:
     cmd: python src/model/training/xgboost_model.py --config=params.yaml
@@ -334,7 +334,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -354,7 +354,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror
@@ -364,8 +364,8 @@ stages:
     outs:
     - path: models/XGBoost_model.pkl
       hash: md5
-      md5: 83287b53d1a0e9417856b2523a0ed643
-      size: 7772872
+      md5: 2cd34b74ce6c1846d031828cbcdc749f
+      size: 366810197
   LightGBM_train:
     cmd: python src/model/training/LGBM_model.py --config=params.yaml
     deps:
@@ -448,7 +448,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -468,7 +468,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror
@@ -478,8 +478,8 @@ stages:
     outs:
     - path: models/LightGBM_model.pkl
       hash: md5
-      md5: f5009c6f29fe7adf05ca4636433b2a01
-      size: 1547316
+      md5: 791a6a9d3938f11daacc4d80f3ba4f30
+      size: 1547427
   TabNet_train:
     cmd: python src/model/training/TabNet_model.py --config=params.yaml
     deps:
@@ -562,7 +562,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -582,7 +582,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror
@@ -592,7 +592,7 @@ stages:
     outs:
     - path: models/TabNet_model.pkl
       hash: md5
-      md5: b0bd1ebaad2d17527d788bbb1c3f0660
+      md5: f29c86a5b0f90a7b36a483fa01d174e1
       size: 320299
   PyNN_eval:
     cmd: python src/eval/PyNN_eval.py --config=params.yaml
@@ -603,7 +603,7 @@ stages:
       size: 229997369
     - path: models/PyNN_model.pt
       hash: md5
-      md5: 929b76439ba793f1cf33b1d84714ce3a
+      md5: 9cd70508bf54bf15f721c118336b603a
       size: 380514
     - path: src/eval/PyNN_eval.py
       hash: md5
@@ -682,7 +682,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -702,7 +702,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror
@@ -712,7 +712,7 @@ stages:
     outs:
     - path: reports/metrics_pynn.json
       hash: md5
-      md5: a0bdb9fa71e90782e189d71443d9c9da
+      md5: 5bcd1930ff08f673cfe2dcb9739df049
       size: 97
   XGBoost_eval:
     cmd: python src/eval/XGBoost_eval.py --config=params.yaml
@@ -723,8 +723,8 @@ stages:
       size: 229997369
     - path: models/XGBoost_model.pkl
       hash: md5
-      md5: 83287b53d1a0e9417856b2523a0ed643
-      size: 7772872
+      md5: 2cd34b74ce6c1846d031828cbcdc749f
+      size: 366810197
     - path: src/eval/XGBoost_eval.py
       hash: md5
       md5: 9f1ae4c9bd80f7662c5f184fffe03603
@@ -802,7 +802,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -822,7 +822,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror
@@ -832,8 +832,8 @@ stages:
     outs:
     - path: reports/metrics_xgboost.json
       hash: md5
-      md5: 9aed235160c50e170b9bd91cb7b3cdcc
-      size: 98
+      md5: 792946dd05ced284fe6ae7a19e594c42
+      size: 99
   LightGBM_eval:
     cmd: python src/eval/LGBM_eval.py --config=params.yaml
     deps:
@@ -843,8 +843,8 @@ stages:
       size: 229997369
     - path: models/LightGBM_model.pkl
       hash: md5
-      md5: f5009c6f29fe7adf05ca4636433b2a01
-      size: 1547316
+      md5: 791a6a9d3938f11daacc4d80f3ba4f30
+      size: 1547427
     - path: src/eval/LGBM_eval.py
       hash: md5
       md5: db8b9bc098b7efcd1e5d0c1110612b58
@@ -922,7 +922,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -942,7 +942,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror
@@ -952,7 +952,7 @@ stages:
     outs:
     - path: reports/metrics_lgbm.json
       hash: md5
-      md5: f556e1476af8f227e780c52566afc4e5
+      md5: 4552cf54c395528c1bd61bb23dd6d096
       size: 97
   TabNet_eval:
     cmd: python src/eval/Tabnet_eval.py --config=params.yaml
@@ -963,7 +963,7 @@ stages:
       size: 229997369
     - path: models/TabNet_model.pkl
       hash: md5
-      md5: b0bd1ebaad2d17527d788bbb1c3f0660
+      md5: f29c86a5b0f90a7b36a483fa01d174e1
       size: 320299
     - path: src/eval/Tabnet_eval.py
       hash: md5
@@ -1042,7 +1042,7 @@ stages:
             - 256
             - 261
             - 4
-            epochs: 100
+            epochs: 2
             lr: 0.002
             model_path: models/PyNN_model.pt
             num_workers: 0
@@ -1062,7 +1062,7 @@ stages:
             device: cuda
             early_stopping_rounds: 20
             learning_rate: 0.05
-            max_depth: 8
+            max_depth: 16
             model_path: models/XGBoost_model.pkl
             n_estimators: 500
             objective: reg:squarederror

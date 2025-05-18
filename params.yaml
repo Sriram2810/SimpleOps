@@ -92,7 +92,7 @@ train:
     device: cuda
     early_stopping_rounds: 20
     learning_rate: 0.05
-    max_depth: 8
+    max_depth: 16
     model_path: models/XGBoost_model.pkl
     n_estimators: 500
     objective: reg:squarederror
