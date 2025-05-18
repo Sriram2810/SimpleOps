@@ -8,6 +8,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
 from tqdm import tqdm
 from typing import Text
+import random
+
+def set_seed(seed: int = 42):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+# Example: set the seed to 42 (or any integer you like)
+set_seed(42)
 
 class TaxiDataset(Dataset):
     def __init__(self, X, y, categorical_cols, numerical_cols):

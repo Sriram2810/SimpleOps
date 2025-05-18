@@ -81,7 +81,7 @@ stages:
     - features
     - train
     outs:
-    - models/LGBM_model.pkl
+    - models/LightGBM_model.pkl
 
   TabNet_train:
     cmd: python src/model/training/TabNet_model.py --config=params.yaml
@@ -101,6 +101,7 @@ stages:
     cmd: python src/eval/PyNN_eval.py --config=params.yaml
     deps:
     - src/eval/PyNN_eval.py
+    - models/PyNN_model.pt
     - data/processed/val_data.csv
     params:
     - base
@@ -109,12 +110,13 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics.json
+    - src/reports/metrics_pynn.json
 
   XGBoost_eval:
     cmd: python src/eval/XGBoost_eval.py --config=params.yaml
     deps:
-    - python src/eval/XGBoost_eval.py
+    - models/XGBoost_model.pkl
+    - src/eval/XGBoost_eval.py
     - data/processed/val_data.csv
     params:
     - base
@@ -123,12 +125,13 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics.json
+    - src/reports/metrics_xgboost.json
 
   LightGBM_eval:
     cmd: python src/eval/LGBM_eval.py --config=params.yaml
     deps:
-    - python src/eval/LGBM_eval.py
+    - models/LightGBM_model.pkl
+    - src/eval/LGBM_eval.py
     - data/processed/val_data.csv
     params:
     - base
@@ -137,11 +140,12 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics.json
+    - src/reports/metrics_lgbm.json
 
   TabNet_eval:
     cmd: python src/eval/Tabnet_eval.py --config=params.yaml
     deps:
+    - models/TabNet_model.pkl
     - src/eval/Tabnet_eval.py
     - data/processed/val_data.csv
     params:
@@ -151,4 +155,4 @@ stages:
     - train
     - eval
     outs:
-    - src/reports/metrics.json
+    - src/reports/metrics_tabnet.json

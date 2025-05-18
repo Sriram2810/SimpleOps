@@ -138,3 +138,939 @@ stages:
       hash: md5
       md5: 862d9bac1c5bc68d377c19e1c00e5aba
       size: 229997369
+  PyNN_train:
+    cmd: python src/model/training/PyNN.py --config=params.yaml
+    deps:
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 149c6be17a1f68f4ec821bde8a90185b
+      size: 919993096
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: src/model/training/PyNN.py
+      hash: md5
+      md5: 598f89a9960227d47a3df5b58bc3c079
+      size: 5519
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: models/PyNN_model.pt
+      hash: md5
+      md5: 929b76439ba793f1cf33b1d84714ce3a
+      size: 380514
+  XGBoost_train:
+    cmd: python src/model/training/xgboost_model.py --config=params.yaml
+    deps:
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 149c6be17a1f68f4ec821bde8a90185b
+      size: 919993096
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: src/model/training/xgboost_model.py
+      hash: md5
+      md5: 4cec0fb69649cb9f96df74b57d627700
+      size: 1947
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: models/XGBoost_model.pkl
+      hash: md5
+      md5: 83287b53d1a0e9417856b2523a0ed643
+      size: 7772872
+  LightGBM_train:
+    cmd: python src/model/training/LGBM_model.py --config=params.yaml
+    deps:
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 149c6be17a1f68f4ec821bde8a90185b
+      size: 919993096
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: src/model/training/LGBM_model.py
+      hash: md5
+      md5: c379a952ecf562de4c4204f639d4f924
+      size: 1700
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: models/LightGBM_model.pkl
+      hash: md5
+      md5: f5009c6f29fe7adf05ca4636433b2a01
+      size: 1547316
+  TabNet_train:
+    cmd: python src/model/training/TabNet_model.py --config=params.yaml
+    deps:
+    - path: data/processed/train_data.csv
+      hash: md5
+      md5: 149c6be17a1f68f4ec821bde8a90185b
+      size: 919993096
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: src/model/training/TabNet_model.py
+      hash: md5
+      md5: 5ae8eb70b462ba9985b897dc84617b06
+      size: 1747
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: models/TabNet_model.pkl
+      hash: md5
+      md5: b0bd1ebaad2d17527d788bbb1c3f0660
+      size: 320299
+  PyNN_eval:
+    cmd: python src/eval/PyNN_eval.py --config=params.yaml
+    deps:
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: models/PyNN_model.pt
+      hash: md5
+      md5: 929b76439ba793f1cf33b1d84714ce3a
+      size: 380514
+    - path: src/eval/PyNN_eval.py
+      hash: md5
+      md5: 705055773ccecca8aa26dc2c163b9b67
+      size: 4108
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        eval:
+          metrics_file_lgbm: metrics_lgbm.json
+          metrics_file_pynn: metrics_pynn.json
+          metrics_file_tabnet: metrics_tabnet.json
+          metrics_file_xgboost: metrics_xgboost.json
+          reports_dir: src/reports
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: src/reports/metrics_pynn.json
+      hash: md5
+      md5: a0bdb9fa71e90782e189d71443d9c9da
+      size: 97
+  XGBoost_eval:
+    cmd: python src/eval/XGBoost_eval.py --config=params.yaml
+    deps:
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: models/XGBoost_model.pkl
+      hash: md5
+      md5: 83287b53d1a0e9417856b2523a0ed643
+      size: 7772872
+    - path: src/eval/XGBoost_eval.py
+      hash: md5
+      md5: 9f1ae4c9bd80f7662c5f184fffe03603
+      size: 1646
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        eval:
+          metrics_file_lgbm: metrics_lgbm.json
+          metrics_file_pynn: metrics_pynn.json
+          metrics_file_tabnet: metrics_tabnet.json
+          metrics_file_xgboost: metrics_xgboost.json
+          reports_dir: src/reports
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: src/reports/metrics_xgboost.json
+      hash: md5
+      md5: 9aed235160c50e170b9bd91cb7b3cdcc
+      size: 98
+  LightGBM_eval:
+    cmd: python src/eval/LGBM_eval.py --config=params.yaml
+    deps:
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: models/LightGBM_model.pkl
+      hash: md5
+      md5: f5009c6f29fe7adf05ca4636433b2a01
+      size: 1547316
+    - path: src/eval/LGBM_eval.py
+      hash: md5
+      md5: db8b9bc098b7efcd1e5d0c1110612b58
+      size: 1594
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        eval:
+          metrics_file_lgbm: metrics_lgbm.json
+          metrics_file_pynn: metrics_pynn.json
+          metrics_file_tabnet: metrics_tabnet.json
+          metrics_file_xgboost: metrics_xgboost.json
+          reports_dir: src/reports
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: src/reports/metrics_lgbm.json
+      hash: md5
+      md5: f556e1476af8f227e780c52566afc4e5
+      size: 97
+  TabNet_eval:
+    cmd: python src/eval/Tabnet_eval.py --config=params.yaml
+    deps:
+    - path: data/processed/val_data.csv
+      hash: md5
+      md5: 862d9bac1c5bc68d377c19e1c00e5aba
+      size: 229997369
+    - path: models/TabNet_model.pkl
+      hash: md5
+      md5: b0bd1ebaad2d17527d788bbb1c3f0660
+      size: 320299
+    - path: src/eval/Tabnet_eval.py
+      hash: md5
+      md5: 137e1cc05035e1db3d1de06f82cf2612
+      size: 1558
+    params:
+      params.yaml:
+        base:
+          random_seed: 42
+        data:
+          null_handled_data_csv: data/processed/yellow_tripdata_2023-01_null_handled.csv
+          processed_data_csv: data/processed/yellow_tripdata_2023-01_processed.csv
+          raw_data_csv: data/raw/yellow_tripdata_2023-01.csv
+          raw_data_parquet: data/raw/yellow_tripdata_2023-01.parquet
+          test_size: 0.2
+          train_data_csv: data/processed/train_data.csv
+          val_data_csv: data/processed/val_data.csv
+        eval:
+          metrics_file_lgbm: metrics_lgbm.json
+          metrics_file_pynn: metrics_pynn.json
+          metrics_file_tabnet: metrics_tabnet.json
+          metrics_file_xgboost: metrics_xgboost.json
+          reports_dir: src/reports
+        features:
+          categorical:
+          - VendorID
+          - RatecodeID
+          - store_and_fwd_flag
+          - payment_type
+          - PULocationID
+          - DOLocationID
+          - time_of_day
+          numerical:
+          - passenger_count
+          - trip_distance
+          - fare_amount
+          - extra
+          - mta_tax
+          - tip_amount
+          - tolls_amount
+          - improvement_surcharge
+          - total_amount
+          - congestion_surcharge
+          - pickup_hour
+          - pickup_weekday
+          - is_weekend
+          - pickup_day
+          - month
+          - is_peak
+        train:
+          LReg:
+            ElasticNet:
+              alpha: 0.1
+              l1_ratio: 0.5
+              max_iter: 10000
+            Lasso:
+              alpha: 0.1
+              max_iter: 10000
+            Ridge:
+              alpha: 1.0
+          LightGBM:
+            device: gpu
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            min_child_samples: 20
+            model_path: models/LightGBM_model.pkl
+            n_estimators: 500
+            num_leaves: 31
+          PyNN:
+            batch_size: 1024
+            cat_dims:
+            - 2
+            - 7
+            - 2
+            - 5
+            - 256
+            - 261
+            - 4
+            epochs: 100
+            lr: 0.002
+            model_path: models/PyNN_model.pt
+            num_workers: 0
+            patience: 20
+            patience_counter: 0
+          TabNet:
+            batch_size: 1024
+            eval_metric:
+            - rmse
+            max_epochs: 20
+            model_path: models/TabNet_model.pkl
+            num_workers: 0
+            patience: 5
+            virtual_batch_size: 128
+          XGBoost:
+            colsample_bytree: 0.8
+            device: cuda
+            early_stopping_rounds: 20
+            learning_rate: 0.05
+            max_depth: 8
+            model_path: models/XGBoost_model.pkl
+            n_estimators: 500
+            objective: reg:squarederror
+            random_state: 42
+            subsample: 0.8
+            tree_method: hist
+    outs:
+    - path: src/reports/metrics_tabnet.json
+      hash: md5
+      md5: bbdab8c98654f1edcb2ddfe07f909b1b
+      size: 99

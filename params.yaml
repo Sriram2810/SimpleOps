@@ -8,6 +8,12 @@ data:
   test_size: 0.2
   train_data_csv: data/processed/train_data.csv
   val_data_csv: data/processed/val_data.csv
+eval:
+  metrics_file_lgbm: metrics_lgbm.json
+  metrics_file_pynn: metrics_pynn.json
+  metrics_file_tabnet: metrics_tabnet.json
+  metrics_file_xgboost: metrics_xgboost.json
+  reports_dir: src/reports
 features:
   categorical:
   - VendorID
@@ -93,7 +99,3 @@ train:
     random_state: 42
     subsample: 0.8
     tree_method: hist
-
-eval:
-  reports_dir: src/reports
-  metrics_file: 'metrics.json'

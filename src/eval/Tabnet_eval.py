@@ -33,7 +33,7 @@ def Tabnet_eval(config_path):
     print(f"TabNet RMSE: {rmse:.2f}, R²: {r2:.4f}")
 
     reports_folder = Path(config['eval']['reports_dir'])
-    metrics_path = reports_folder/config['eval']['metrics_file']
+    metrics_path = reports_folder/config['eval']['metrics_file_tabnet']
 
     reports_folder.mkdir(parents=True, exist_ok=True)
 

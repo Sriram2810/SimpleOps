@@ -3001,7 +3001,6 @@ dependencies = [
     { name = "pandas" },
     { name = "pytorch-tabnet" },
     { name = "seaborn" },
-    { name = "torch" },
     { name = "tqdm" },
     { name = "xgboost" },
 ]
@@ -3021,7 +3020,6 @@ requires-dist = [
     { name = "pandas", specifier = ">=2.2.3" },
     { name = "pytorch-tabnet", specifier = ">=4.1.0" },
     { name = "seaborn", specifier = ">=0.13.2" },
-    { name = "torch", specifier = ">=2.7.0" },
     { name = "tqdm", specifier = ">=4.67.1" },
     { name = "xgboost", specifier = ">=3.0.1" },
 ]
